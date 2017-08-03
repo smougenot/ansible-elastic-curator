@@ -1,0 +1,7 @@
+---
+
+- name: "config template"
+  template:
+    src: "config.yml.j2"
+    dest: "{{ es_curator_configs.file }}"
+  when: es_curator_configs is defined and es_curator_configs.file is defined and es_curator_configs.file != ""

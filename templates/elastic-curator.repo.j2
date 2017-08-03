@@ -1,0 +1,9 @@
+[curator-{{ es_curator_major_version }}]
+name=CentOS/RHEL $releasever repository for Elasticsearch Curator {{ es_curator_major_version }} packages
+baseurl=http://packages.elastic.co/curator/{{ es_curator_major_version }}/centos/$releasever
+gpgcheck=1
+gpgkey=http://packages.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+{% if es_proxy_host is defined and es_proxy_port is defined %}
+proxy=http://{{ es_curator_proxy_host }}:{{es_curator_proxy_port}}
+{% endif %}

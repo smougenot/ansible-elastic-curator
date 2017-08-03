@@ -1,0 +1,10 @@
+{{ es_curator_actions_config.log_dir }}/*.log{
+    daily
+    rotate 3
+    copytruncate
+    compress
+    missingok
+    notifempty
+    dateext
+    olddir {{ es_curator_actions_config.old_log_dir }}
+}

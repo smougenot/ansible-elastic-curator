@@ -1,0 +1,5 @@
+---
+
+{% if es_curator_configs.config %}
+{{ es_curator_configs.config | to_nice_yaml }}
+{% endif %}

@@ -1,0 +1,26 @@
+---
+
+- name: RedHat - Install Elastic-Curator repo
+  template:
+    src: "elastic-curator.repo.j2"
+    dest: "/etc/yum.repos.d/elastic-curator-{{ es_curator_major_version }}.repo"
+  when: es_curator_use_repository
+
+- name: RedHat - Install Elastic-Curator
+  yum:
+    name: "elasticsearch-curator{% if es_curator_version is defined and es_curator_version != ''  %}-{{ es_curator_version }}{% endif %}"
+    state: present
+  when: es_use_repository
+  register: redhat_elasticsearch_curator_install
+  until: '"failed" not in redhat_elasticsearch_curator_install'
+  retries: 2
+  delay: 10
+
+- name: RedHat - Install dependencies
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - logrotate
+    - crontabs
+    # TODO manage systemD

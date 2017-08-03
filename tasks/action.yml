@@ -1,0 +1,33 @@
+---
+
+- name: "action template"
+  template:
+    src: "action.yml.j2"
+    dest: "{{ es_curator_actions_config.file }}"
+  when: es_curator_actions_config is defined and es_curator_actions_config.file is defined and es_curator_actions_config.file != ""
+
+- name: "log dir"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+  when: es_curator_actions_config is defined and es_curator_actions_config.log_dir is defined and es_curator_actions_config.log_dir != ""
+  with_items:
+    - "{{ es_curator_actions_config.log_dir }}"
+    - "{{ es_curator_actions_config.log_dir }}/{{ es_curator_actions_config.old_log_dir | default('default') }}"
+
+- name: "logrotate"
+  template:
+    src: "logrotate.conf.j2"
+    dest: "/etc/logrotate.d/elastic-curator.conf"
+    owner: root
+    group: root
+    mode: 0444
+  when: es_curator_actions_config is defined and es_curator_actions_config.log_dir is defined and es_curator_actions_config.log_dir != ""
+
+- name: "launcher template"
+  template:
+    src: "launcher.sh.j2"
+    dest: "{{ es_curator_actions_config.launcher }}"
+    mode: 0755
+  when: es_curator_actions_config is defined and es_curator_actions_config.launcher is defined and es_curator_actions_config.launcher != ""

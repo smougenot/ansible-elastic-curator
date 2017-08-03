@@ -1,0 +1,86 @@
+---
+
+# Installation related
+
+es_curator_version: "5.1.1"
+es_curator_use_repository: true
+# path where the package gives the tools (we can not choose)
+es_curator_home: "/opt/elasticsearch-curator"
+
+# Config
+
+es_curator_configs:
+  file: "{{ es_curator_home }}/config.yml"
+  config:
+    # see official documentation for curator configuration file
+    # https://www.elastic.co/guide/en/elasticsearch/client/curator/current/configfile.html
+    client:
+      hosts:
+        - "127.0.0.1"
+      port:
+      url_prefix:
+      use_ssl: False
+      certificate:
+      client_cert:
+      client_key:
+      ssl_no_validate: False
+      http_auth:
+      timeout: 30
+      master_only: False
+    logging:
+      loglevel: INFO
+      logfile:
+      logformat: default
+      blacklist: ['elasticsearch', 'urllib3']
+
+# Actions
+
+# Auto-generated action (with default es_curator_actions)
+es_curator_actions_config:
+  file: "{{ es_curator_home }}/action.yml"
+  launcher: "{{ es_curator_home }}/launcher.sh"
+  log_dir: "/var/log/curator"
+  old_log_dir: "archive"
+  delete:
+    age: 2
+    unit: days
+    disable: False
+  close:
+    age: 1
+    unit: days
+    disable: False
+# Definition of the actions
+es_curator_actions:
+  # see official documentation for curator action file
+  # https://www.elastic.co/guide/en/elasticsearch/client/curator/current/actionfile.html
+  - action: delete_indices
+    description: "Delete indices older than {{ es_curator_actions_config.delete.age }} {{ es_curator_actions_config.delete.unit }}"
+    options:
+      ignore_empty_list: True
+      disable_action: "{{ es_curator_actions_config.delete.disable }}"
+    filters:
+      - filtertype: age
+        source: name
+        direction: older
+        timestring: "%Y.%m.%d"
+        unit:  "{{ es_curator_actions_config.delete.unit }}"
+        unit_count: "{{ es_curator_actions_config.delete.age }}"
+  - action: close
+    description: "Close indices older than {{ es_curator_actions_config.close.age }} {{ es_curator_actions_config.close.unit }}"
+    options:
+      ignore_empty_list: True
+      disable_action: "{{ es_curator_actions_config.close.disable }}"
+      delete_aliases: False
+    filters:
+      - filtertype: age
+        source: name
+        direction: older
+        timestring: "%Y.%m.%d"
+        unit:  "{{ es_curator_actions_config.close.unit }}"
+        unit_count: "{{ es_curator_actions_config.close.age }}"
+
+# Plan actions
+es_curator_crons:
+  - name: "Curator actions"
+    job: "{{ es_curator_actions_config.launcher }}"
+    minute: "*/15"

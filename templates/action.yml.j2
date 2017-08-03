@@ -1,0 +1,9 @@
+---
+
+{% if es_curator_actions %}
+actions:
+{% for action in es_curator_actions %}
+  {{ loop.index }}:
+{{ action | to_nice_yaml | indent( width=4, indentfirst=True)  }}
+{% endfor %}
+{% endif %}

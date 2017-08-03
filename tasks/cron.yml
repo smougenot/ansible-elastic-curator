@@ -1,0 +1,13 @@
+---
+
+- name: "cron"
+  cron:
+    name: "{{ item.name }}"
+    job: "{{ item.job }}"
+    minute: "{{ item.minute | default('*') }}"
+    hour: "{{ item.hour | default('*') }}"
+    day: "{{ item.day | default('*') }}"
+    weekday: "{{ item.weekday | default('*') }}"
+    month: "{{ item.month | default('*') }}"
+  with_items: "{{ es_curator_crons }}"
+  when: es_curator_crons is defined

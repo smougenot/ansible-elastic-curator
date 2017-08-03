@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+{{ es_curator_home }}/curator --config "{{ es_curator_configs.file }}" "{{ es_curator_actions_config.file }}" &>> "{{ es_curator_actions_config.log_dir }}/actions.log"

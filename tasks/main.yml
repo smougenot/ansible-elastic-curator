@@ -1,0 +1,31 @@
+---
+
+- name: "es_curator_major_version fact dynamic"
+  set_fact:
+    es_curator_major_version:    "{{ es_curator_version.split('.')[0] }}"
+  check_mode: no
+  register: es_curator_major_version_fact
+
+- name: "fact dynamic report"
+  debug: >
+    msg="
+    es_curator_version : {{ es_curator_version }}
+    es_curator_major_version : {{ es_curator_major_version }}"
+
+- include: setup-RedHat.yml
+  tags: "install"
+  when: ansible_os_family == 'RedHat'
+
+- include: setup-Debian.yml
+  tags: "install"
+  when: ansible_os_family == 'Debian'
+
+- include: config.yml
+  tags: "config"
+
+- include: action.yml
+  tags: "config"
+
+- include: cron.yml
+  tags: "config"
+
