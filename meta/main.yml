@@ -1,0 +1,85 @@
+galaxy_info:
+  author: Sylvain Mougenot
+  description: IT worker in France
+
+  license: Apache
+
+  min_ansible_version: 2
+
+  # Optionally specify the branch Galaxy will use when accessing the GitHub
+  # repo for this role. During role install, if no tags are available,
+  # Galaxy will use this branch. During import Galaxy will access files on
+  # this branch. If travis integration is cofigured, only notification for this
+  # branch will be accepted. Otherwise, in all cases, the repo's default branch
+  # (usually master) will be used.
+  #github_branch:
+
+  #
+  # Below are all platforms currently available. Just uncomment
+  # the ones that apply to your role. If you don't see your
+  # platform on this list, let us know and we'll get it added!
+  #
+  platforms:
+  #- name: OpenBSD
+  #  versions:
+  #  - all
+  #  - 5.6
+  #  - 5.7
+  #  - 5.8
+  #  - 5.9
+  #  - 6.0
+  #  - 6.1
+  #- name: Fedora
+  #  versions:
+  #  - all
+  #  - 16
+  #  - 17
+  #  - 18
+  #  - 19
+  #  - 20
+  #  - 21
+  #  - 22
+  #  - 23
+  #  - 24
+  #  - 25
+  #  - 26
+  #- name: Ubuntu
+  #  versions:
+  #  - all
+  #  - artful
+  #  - lucid
+  #  - maverick
+  #  - natty
+  #  - oneiric
+  #  - precise
+  #  - quantal
+  #  - raring
+  #  - saucy
+  #  - trusty
+  #  - utopic
+  #  - vivid
+  #  - wily
+  #  - xenial
+  #  - yakkety
+  #  - zesty
+  #- name: Debian
+  #  versions:
+  #  - all
+  #  - etch
+  #  - jessie
+  #  - lenny
+  #  - sid
+  #  - squeeze
+  #  - stretch
+  #  - wheezy
+  - name: EL
+    versions:
+  #  - all
+  #  - 5
+    - 6
+  #  - 7
+
+
+  galaxy_tags: ["system", "data", "monitor", "elasticsearch", "elastic", "curator"]
+
+dependencies: []
