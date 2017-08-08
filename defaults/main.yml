@@ -45,7 +45,7 @@ es_curator_actions_config:
     age: 2
     unit: days
     disable: False
-  close:
+  forcemerge:
     age: 1
     unit: days
     disable: False
@@ -65,19 +65,20 @@ es_curator_actions:
         timestring: "%Y.%m.%d"
         unit:  "{{ es_curator_actions_config.delete.unit }}"
         unit_count: "{{ es_curator_actions_config.delete.age }}"
-  - action: close
-    description: "Close indices older than {{ es_curator_actions_config.close.age }} {{ es_curator_actions_config.close.unit }}"
+  - action: forcemerge
+    description: "Forcemerge indices older than {{ es_curator_actions_config.forcemerge.age }} {{ es_curator_actions_config.forcemerge.unit }}"
     options:
       ignore_empty_list: True
-      disable_action: "{{ es_curator_actions_config.close.disable }}"
-      delete_aliases: False
+      disable_action: "{{ es_curator_actions_config.forcemerge.disable }}"
+      max_num_segments: 1
+      delay: 60
     filters:
       - filtertype: age
         source: name
         direction: older
         timestring: "%Y.%m.%d"
-        unit:  "{{ es_curator_actions_config.close.unit }}"
-        unit_count: "{{ es_curator_actions_config.close.age }}"
+        unit:  "{{ es_curator_actions_config.forcemerge.unit }}"
+        unit_count: "{{ es_curator_actions_config.forcemerge.age }}"
 
 # Plan actions
 es_curator_crons:
